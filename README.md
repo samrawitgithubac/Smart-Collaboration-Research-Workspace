@@ -93,6 +93,21 @@ The sign-in page can show **Dev bypass login** when `frontend/.env` has `VITE_AU
 4. Open **Board**: drag tasks between columns; the other user should see updates in near real time.
 5. **Files**: upload, download; uploader or Admin can delete.
 
+## API docs (Swagger)
+
+When the backend is running:
+
+- **Swagger UI:** [http://localhost:4000/api/docs](http://localhost:4000/api/docs) (or your deployed API URL + `/api/docs`)
+- **OpenAPI JSON:** `/api/openapi.json`
+
+Register or log in, copy the `token`, click **Authorize** in Swagger, and use: `Bearer <token>` (or paste the token only, depending on the UI — our scheme is HTTP Bearer).
+
+Set **`PUBLIC_API_URL`** (or rely on **`RENDER_EXTERNAL_URL`** on Render) so “Try it out” targets the correct server.
+
+## Deploy on Render (boss / stakeholder demo)
+
+Step-by-step for **PostgreSQL + API + Static frontend** and env vars is in **[docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md)**.
+
 ## Docker (production-style)
 
 From the repo root:
@@ -123,6 +138,7 @@ See `backend/.env.example`. Important:
 | `UPLOAD_DIR` | Directory for uploaded files |
 | `UPLOAD_MAX_MB` | Max upload size (default 25) |
 | `PORT` | API port (default 4000) |
+| `PUBLIC_API_URL` | Public base URL for Swagger (optional; Render sets `RENDER_EXTERNAL_URL`) |
 
 ### Frontend (`frontend/`)
 

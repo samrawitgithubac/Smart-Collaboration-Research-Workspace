@@ -4,12 +4,14 @@ import express from "express";
 import helmet from "helmet";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import swaggerUi from "swagger-ui-express";
 import authRoutes from "./routes/auth.js";
 import workspaceRoutes from "./routes/workspaces.js";
 import inviteRoutes, { acceptRouter } from "./routes/invites.js";
 import { createTasksRouter } from "./routes/tasks.js";
 import { createFilesRouter } from "./routes/files.js";
 import { attachRealtime } from "./realtime.js";
+import { getOpenApiSpec } from "./openapi.js";
 
 const PORT = Number(process.env.PORT ?? 4000);
 const CORS_ORIGIN = process.env.CORS_ORIGIN?.split(",").map((s) => s.trim()) ?? [
@@ -25,7 +27,12 @@ const io = new Server(httpServer, {
 
 attachRealtime(io);
 
-app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 app.use(
   cors({
     origin: CORS_ORIGIN,
@@ -33,6 +40,19 @@ app.use(
   })
 );
 app.use(express.json({ limit: "1mb" }));
+
+const openApiSpec = getOpenApiSpec();
+app.get("/api/openapi.json", (_req, res) => {
+  res.json(openApiSpec);
+});
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(openApiSpec, {
+    customSiteTitle: "Research Workspace API",
+    customCss: ".swagger-ui .topbar { display: none }",
+  })
+);
 
 app.get("/health", (_req, res) => {
   res.json({ ok: true, service: "scrw-api" });
