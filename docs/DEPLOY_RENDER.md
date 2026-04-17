@@ -114,6 +114,7 @@ After the first deploy, copy the static site URL (e.g. `https://scrw-web.onrende
 
 ## 5. Common issues
 
+- **`P1001: Can't reach database server at localhost:5432` on deploy:** Your Web Service **`DATABASE_URL`** still points at your **laptop** (`localhost`). On Render there is no Postgres on `localhost` inside the container. Fix: open your **Render PostgreSQL** dashboard → copy **Internal Database URL** (or use **Connect** / **Link database** on the Web Service so Render injects `DATABASE_URL`). Paste that full URL into the API service **Environment** as `DATABASE_URL` and redeploy. It should look like `postgresql://...@dpg-xxxxx-a.region-postgres.render.com/...`, not `localhost`.
 - **CORS errors in the browser:** `CORS_ORIGIN` must exactly match the frontend origin (scheme + host, no path).
 - **401 on API after deploy:** JWT secret changed — users must log in again.
 - **502 / timeout on first hit:** Free Web Service was asleep; retry after ~1 minute.

@@ -1,6 +1,7 @@
 .git
 frontend
 docs
+backend/.env
 **/.env
 **/.env.*
 **/node_modules
