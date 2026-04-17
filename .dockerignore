@@ -1,0 +1,9 @@
+.git
+frontend
+docs
+**/.env
+**/.env.*
+**/node_modules
+**/dist
+**/*.log
+uploads

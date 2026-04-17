@@ -20,6 +20,20 @@ Render docs: [https://render.com/docs](https://render.com/docs)
 
 ## 2. Backend (Web Service)
 
+You can deploy the API in either of these ways:
+
+### Option A — Docker (default if you pick “Docker” on Render)
+
+Render looks for a **`Dockerfile` at the repository root**. This repo includes a root **`Dockerfile`** that builds only the **backend** (monorepo layout).
+
+1. **New +** → **Web Service** → connect your **GitHub** repo.
+2. Leave **Root Directory** empty (repository root), or set it to `.` so the root `Dockerfile` is used.
+3. **Environment:** **Docker** (Render will run `docker build` using the root `Dockerfile`).
+
+No need to set a custom Dockerfile path unless you moved the file.
+
+### Option B — Native Node (no Docker)
+
 1. **New +** → **Web Service** → connect your **GitHub** repo.
 2. **Root Directory:** `backend`
 3. **Runtime:** Node
